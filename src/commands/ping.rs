@@ -1,6 +1,7 @@
 use crate::{Context, Error};
 use std::time::Instant;
 
+/// Pong?
 #[poise::command(slash_command)]
 pub async fn ping(ctx: Context<'_>) -> Result<(), Error> {
     let start_time = Instant::now();

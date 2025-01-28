@@ -33,7 +33,12 @@ async fn main() {
     // FrameworkOptions contains all of poise's configuration option in one struct
     // Every option can be omitted to use its default value
     let options = poise::FrameworkOptions {
-        commands: vec![commands::ping::ping(), commands::embed::embed()],
+        commands: vec![
+            commands::ping::ping(),
+            commands::embed::embed(),
+            commands::test::test(),
+            commands::req::weather()
+        ],
         // The global error handler for all error cases that may occur
         on_error: |error| Box::pin(on_error(error)),
         // This code is run before every command
@@ -62,10 +67,7 @@ async fn main() {
         skip_checks_for_owners: false,
         event_handler: |_ctx, event, _framework, _data| {
             Box::pin(async move {
-                println!(
-                    "Got an event in event handler: {:?}",
-                    event.snake_case_name()
-                );
+                println!("Got {:?} in event handler", event.snake_case_name());
                 Ok(())
             })
         },
@@ -78,6 +80,13 @@ async fn main() {
             Box::pin(async move {
                 // Register commands in a specific guild
                 let guild_id = guild_id.parse().expect("Invalid guild id");
+                use serenity::gateway::ActivityData;
+                use serenity::model::user::OnlineStatus;
+
+                let activity = ActivityData::custom("❤️ ultrasarker");
+                let status = OnlineStatus::Online;
+
+                ctx.set_presence(Some(activity), status);
                 println!("Logged in as {}", _ready.user.name);
                 poise::builtins::register_in_guild(
                     ctx,
@@ -94,7 +103,6 @@ async fn main() {
 
     let token = env::var("DISCORD_TOKEN").expect("Expected a token in the environment");
     let intents = serenity::GatewayIntents::non_privileged();
-
     let client = serenity::ClientBuilder::new(token, intents)
         .framework(framework)
         .await;
