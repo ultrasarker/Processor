@@ -1,7 +1,7 @@
 use crate::{Context, Error};
+use ::serenity::all::Timestamp;
 use poise::serenity_prelude as serenity;
 use poise::CreateReply;
-use ::serenity::all::Timestamp;
 use serenity::all::{CreateEmbed, CreateEmbedFooter};
 use serenity::model::Colour;
 
@@ -23,4 +23,3 @@ pub async fn embed(ctx: Context<'_>) -> Result<(), Error> {
     ctx.send(CreateReply::default().embed(embed)).await?;
     Ok(())
 }
-

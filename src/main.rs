@@ -1,3 +1,5 @@
+#![allow(non_camel_case_types)]
+
 mod commands;
 
 use dotenv::dotenv;
@@ -37,7 +39,13 @@ async fn main() {
             commands::ping::ping(),
             commands::embed::embed(),
             commands::test::test(),
-            commands::req::weather()
+            commands::random::animal(),
+            commands::random::animu(),
+            commands::random::animu_quote(),
+            commands::random::joke(),
+            commands::tools::colour(),
+            commands::weather::weather(),
+            commands::scrape::scrape(),
         ],
         // The global error handler for all error cases that may occur
         on_error: |error| Box::pin(on_error(error)),
